@@ -14,7 +14,9 @@ public class JenkinsController : MonoBehaviour
     public bool onGround;
     public bool onRightWall = false;
     public bool onLeftWall = false;
-    private float groundLength = 0.6f;
+    public float distanceToGround = 0.7f;
+    public Vector3 colliderOffest;
+    private float distanceToWall = 0.6f;
 
     public float gravity = 1f;
     public float fallMultiplier = 5f;
@@ -24,7 +26,8 @@ public class JenkinsController : MonoBehaviour
     public float jumpPowerY = 15f;
     public bool canJump = true;
     public bool allowScrolling = false;
-
+    public float jumpDelay = 0.25f;
+    private float jumpTimer;
     // Start is called before the first frame update
     void Start()
     {
@@ -34,9 +37,9 @@ public class JenkinsController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        onGround = Physics2D.Raycast(transform.position, Vector2.down, groundLength, groundLayer);
-        onRightWall = Physics2D.Raycast(transform.position, Vector2.right, groundLength, groundLayer);
-        onLeftWall = Physics2D.Raycast(transform.position, Vector2.left, groundLength, groundLayer);
+        onGround = Physics2D.Raycast(transform.position, Vector2.down, distanceToGround, groundLayer);
+        onRightWall = Physics2D.Raycast(transform.position, Vector2.right, distanceToWall, groundLayer);
+        onLeftWall = Physics2D.Raycast(transform.position, Vector2.left, distanceToWall, groundLayer);
 
         if (!onRightWall && allowScrolling) 
         { 
@@ -123,8 +126,10 @@ public class JenkinsController : MonoBehaviour
     private void OnDrawGizmos()
     {
         Gizmos.color = Color.red;
-        Gizmos.DrawLine(transform.position, transform.position + Vector3.down * groundLength);
-        Gizmos.DrawLine(transform.position, transform.position + Vector3.right * groundLength);
-        Gizmos.DrawLine(transform.position, transform.position + Vector3.left * groundLength);
+        Gizmos.DrawLine(transform.position + colliderOffest, transform.position + colliderOffest + Vector3.down * distanceToGround);
+        Gizmos.DrawLine(transform.position - colliderOffest, transform.position - colliderOffest + Vector3.down * distanceToGround);
+
+        Gizmos.DrawLine(transform.position, transform.position + Vector3.right * distanceToWall);
+        Gizmos.DrawLine(transform.position, transform.position + Vector3.left * distanceToWall);
     }
 }

@@ -18,7 +18,7 @@ public class CameraController : MonoBehaviour
     {
         Vector3 temp = transform.position;
         temp.x = jenkinsTransform.position.x;
-        if(temp.x > 0)
+        if(temp.x > 0 && (temp.x - transform.position.x >= 0))
         {
             transform.position = temp;
         }
