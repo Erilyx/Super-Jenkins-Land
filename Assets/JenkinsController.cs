@@ -16,6 +16,7 @@ public class JenkinsController : MonoBehaviour
     public bool onLeftWall = false;
     public float distanceToGround = 0.7f;
     public Vector3 colliderOffest;
+    public Vector3 colliderWallOffset;
     private float distanceToWall = 0.6f;
 
     public float gravity = 1f;
@@ -28,6 +29,7 @@ public class JenkinsController : MonoBehaviour
     public bool allowScrolling = false;
     public float jumpDelay = 0.25f;
     private float jumpTimer;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -37,9 +39,12 @@ public class JenkinsController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        onGround = Physics2D.Raycast(transform.position, Vector2.down, distanceToGround, groundLayer);
-        onRightWall = Physics2D.Raycast(transform.position, Vector2.right, distanceToWall, groundLayer);
-        onLeftWall = Physics2D.Raycast(transform.position, Vector2.left, distanceToWall, groundLayer);
+        onGround = (Physics2D.Raycast(transform.position + colliderOffest, Vector2.down, distanceToGround, groundLayer) ||
+                    Physics2D.Raycast(transform.position - colliderOffest, Vector2.down, distanceToGround, groundLayer));
+        onRightWall = (Physics2D.Raycast(transform.position + colliderWallOffset, Vector2.right, distanceToWall, groundLayer) ||
+                      Physics2D.Raycast(transform.position - colliderWallOffset, Vector2.right, distanceToWall, groundLayer));
+        onLeftWall = (Physics2D.Raycast(transform.position + colliderWallOffset, Vector2.left, distanceToWall, groundLayer) ||
+                        Physics2D.Raycast(transform.position - colliderWallOffset, Vector2.left, distanceToWall, groundLayer));
 
         if (!onRightWall && allowScrolling) 
         { 
@@ -51,7 +56,7 @@ public class JenkinsController : MonoBehaviour
         // jump
         if (Input.GetKey(KeyCode.X) && canJump)
         {
-            Jump();
+            jumpTimer = Time.time + jumpDelay;
             canJump = false;
         }
 
@@ -70,7 +75,10 @@ public class JenkinsController : MonoBehaviour
 
     private void FixedUpdate()
     {
-
+        if (jumpTimer > Time.time)
+        {
+            Jump();
+        }
     }//end of Fixed Update
 
 
@@ -98,6 +106,7 @@ public class JenkinsController : MonoBehaviour
             jenkinsRigidBody2D.velocity = new Vector2(jenkinsRigidBody2D.velocity.x, jumpPowerY);
         }
 
+        jumpTimer = 0;
     }
 
     void ModifyPhysics()
@@ -105,7 +114,7 @@ public class JenkinsController : MonoBehaviour
 
         if (onGround)
         {
-            jenkinsRigidBody2D.gravityScale = 0;
+            jenkinsRigidBody2D.gravityScale = 0.1f;  //what is the gravity when Jenkins is on the ground?
         }
         else
         {
@@ -113,7 +122,14 @@ public class JenkinsController : MonoBehaviour
             jenkinsRigidBody2D.drag = linearDrag * 0.15f;
             if(jenkinsRigidBody2D.velocity.y < 0)  //if is coming down
             {
-                jenkinsRigidBody2D.gravityScale = gravity * fallMultiplier;
+                if (onRightWall || onLeftWall)
+                {
+                    jenkinsRigidBody2D.gravityScale = gravity * 0.7f; //lets him  cling to the wall a bit...
+                }
+                else
+                {
+                    jenkinsRigidBody2D.gravityScale = gravity * fallMultiplier;
+                }
             }
             else if((jenkinsRigidBody2D.velocity.y > 0) && !Input.GetKey(KeyCode.X))
             {
@@ -129,7 +145,10 @@ public class JenkinsController : MonoBehaviour
         Gizmos.DrawLine(transform.position + colliderOffest, transform.position + colliderOffest + Vector3.down * distanceToGround);
         Gizmos.DrawLine(transform.position - colliderOffest, transform.position - colliderOffest + Vector3.down * distanceToGround);
 
-        Gizmos.DrawLine(transform.position, transform.position + Vector3.right * distanceToWall);
-        Gizmos.DrawLine(transform.position, transform.position + Vector3.left * distanceToWall);
+        Gizmos.DrawLine(transform.position + colliderWallOffset, transform.position + colliderWallOffset + Vector3.right * distanceToWall);
+        Gizmos.DrawLine(transform.position - colliderWallOffset, transform.position - colliderWallOffset + Vector3.right * distanceToWall);
+
+        Gizmos.DrawLine(transform.position + colliderWallOffset, transform.position + colliderWallOffset + Vector3.left * distanceToWall);
+        Gizmos.DrawLine(transform.position - colliderWallOffset, transform.position - colliderWallOffset + Vector3.left * distanceToWall);
     }
 }
