@@ -14,16 +14,16 @@ public class JenkinsController : MonoBehaviour
     public bool onGround;
     public bool onRightWall = false;
     public bool onLeftWall = false;
-    private float groundLength = 0.7f;
+    private float groundLength = 0.6f;
 
     public float gravity = 1f;
     public float fallMultiplier = 5f;
 
     [Header("Jump Abilities")]
-    private float jumpPowerX = 1f;
+    public float jumpPowerX = 1f;
     public float jumpPowerY = 15f;
     public bool canJump = true;
-
+    public bool allowScrolling = false;
 
     // Start is called before the first frame update
     void Start()
@@ -38,13 +38,15 @@ public class JenkinsController : MonoBehaviour
         onRightWall = Physics2D.Raycast(transform.position, Vector2.right, groundLength, groundLayer);
         onLeftWall = Physics2D.Raycast(transform.position, Vector2.left, groundLength, groundLayer);
 
-        ScrollJenkins();
-        
+        if (!onRightWall && allowScrolling) 
+        { 
+            ScrollJenkins();
+        }
 
         ModifyPhysics();  
 
         // jump
-        if (Input.GetKey(KeyCode.X) && onGround && canJump)
+        if (Input.GetKey(KeyCode.X) && canJump)
         {
             Jump();
             canJump = false;
@@ -55,6 +57,12 @@ public class JenkinsController : MonoBehaviour
         {
             canJump = true;
         }
+
+        if (onGround)
+        {
+            allowScrolling = true;
+        }
+
     }//end of Update
 
     private void FixedUpdate()
@@ -65,16 +73,27 @@ public class JenkinsController : MonoBehaviour
 
     void ScrollJenkins()
     {
-        if (!onRightWall && !onLeftWall)
-        {
              jenkinsRigidBody2D.velocity = new Vector2(scrollSpeed, jenkinsRigidBody2D.velocity.y);
-        }
     }
 
     void Jump()
     {
-        Debug.Log("is in the jump function");
-        jenkinsRigidBody2D.velocity = new Vector2(jenkinsRigidBody2D.velocity.x, jumpPowerY);
+        if (!onGround)
+        {
+            if (onRightWall)
+            {
+                jenkinsRigidBody2D.velocity = new Vector2(-jumpPowerX, jumpPowerY);
+                allowScrolling = false;
+            }
+            else if (onLeftWall)
+            {
+                jenkinsRigidBody2D.velocity = new Vector2(jumpPowerX, jumpPowerY);
+            }
+        }
+        else
+        {
+            jenkinsRigidBody2D.velocity = new Vector2(jenkinsRigidBody2D.velocity.x, jumpPowerY);
+        }
 
     }
 
