@@ -5,6 +5,9 @@ TagManager:
   serializedVersion: 2
   tags:
   - LeftEdge
+  - Coin
+  - Lava
+  - Enemy
   layers:
   - Default
   - TransparentFX

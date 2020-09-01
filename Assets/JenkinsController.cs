@@ -139,6 +139,15 @@ public class JenkinsController : MonoBehaviour
 
     }
 
+    private void OnTriggerEnter2D(Collider2D other)
+    {
+        if (other.gameObject.CompareTag("Coin"))
+        {
+            Destroy(other.gameObject);
+            Debug.Log("coin");
+        }
+    }
+
     private void OnDrawGizmos()
     {
         Gizmos.color = Color.red;
