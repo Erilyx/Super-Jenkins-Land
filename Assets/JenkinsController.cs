@@ -161,6 +161,11 @@ public class JenkinsController : MonoBehaviour
         {
             Destroy(other.gameObject);
         }
+
+        if (other.gameObject.CompareTag("Lava"))
+        {
+            FindObjectOfType<GameManager>().GameOver();
+        }
     }
 
     private void OnDrawGizmos()
