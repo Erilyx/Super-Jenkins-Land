@@ -17,7 +17,7 @@ public class JenkinsController : MonoBehaviour
     public float distanceToGround = 0.7f;
     public Vector3 colliderOffest;
     public Vector3 colliderWallOffset;
-    private float distanceToWall = 0.6f;
+    private float distanceToWall = 0.7f;
 
     public float gravity = 1f;
     public float fallMultiplier = 5f;
@@ -25,7 +25,7 @@ public class JenkinsController : MonoBehaviour
     [Header("Jump Abilities")]
     public float jumpPowerX = 1f;
     public float jumpPowerY = 15f;
-    public bool canJump = true;
+    private bool canJump = true;
     public bool allowScrolling = false;
     public float jumpDelay = 0.25f;
     private float jumpTimer;
@@ -93,11 +93,15 @@ public class JenkinsController : MonoBehaviour
         {
             if (onRightWall)
             {
+
+                jenkinsRigidBody2D.drag = linearDrag * 0.15f; //trying to rejuvinate his spring off the wall
                 jenkinsRigidBody2D.velocity = new Vector2(-jumpPowerX, jumpPowerY);
                 allowScrolling = false;
             }
             else if (onLeftWall)
             {
+
+                jenkinsRigidBody2D.drag = linearDrag * 0.15f;  //trying to rejuvinate his spring off the wall
                 jenkinsRigidBody2D.velocity = new Vector2(jumpPowerX, jumpPowerY);
             }
         }
@@ -124,7 +128,8 @@ public class JenkinsController : MonoBehaviour
             {
                 if (onRightWall || onLeftWall)
                 {
-                    jenkinsRigidBody2D.gravityScale = gravity * 0.7f; //lets him  cling to the wall a bit...
+                    jenkinsRigidBody2D.gravityScale = gravity * 1.1f; //lets him  cling to the wall a bit...
+                    jenkinsRigidBody2D.drag = 4; //he keeps pushing away from the wall in wall jump hangs....
                 }
                 else
                 {
@@ -145,6 +150,16 @@ public class JenkinsController : MonoBehaviour
         {
             Destroy(other.gameObject);
             Debug.Log("coin");
+        }
+
+        if(other.gameObject.CompareTag("Enemy"))
+        {
+            jenkinsRigidBody2D.velocity = new Vector2(jenkinsRigidBody2D.velocity.x, jumpPowerY * 1.1f);
+        }
+
+        if(other.gameObject.CompareTag("Star"))
+        {
+            Destroy(other.gameObject);
         }
     }
 

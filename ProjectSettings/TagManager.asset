@@ -8,6 +8,8 @@ TagManager:
   - Coin
   - Lava
   - Enemy
+  - Star
+  - QuestionBox
   layers:
   - Default
   - TransparentFX
