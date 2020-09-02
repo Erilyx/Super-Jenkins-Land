@@ -19,7 +19,7 @@ public class JenkinsController : MonoBehaviour
     public Vector3 colliderOffest;
     public Vector3 colliderWallOffset;
     private float distanceToWall = 0.7f;
-
+    public Vector3 spawnPoint;
     public float gravity = 1f;
     public float fallMultiplier = 5f;
 
@@ -36,6 +36,7 @@ public class JenkinsController : MonoBehaviour
     {
         jenkinsRigidBody2D = GetComponent<Rigidbody2D>();
         gameManager = FindObjectOfType<GameManager>();
+        spawnPoint = new Vector3(0, 0, 0);  //need to convert to world coords???
 
 
     }
@@ -169,9 +170,18 @@ public class JenkinsController : MonoBehaviour
 
         if (other.gameObject.CompareTag("Lava"))
         {
-            FindObjectOfType<GameManager>().GameOver();
+            gameManager.JenkinsDies();
+            Invoke("RespawnJenkins", 2);
+
         }
     }
+
+    public void RespawnJenkins()
+    {
+        Debug.Log("am now in the invoked respawn function");
+        transform.position = spawnPoint;
+        Time.timeScale = 1;
+     }
 
     private void OnDrawGizmos()
     {

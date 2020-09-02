@@ -40,9 +40,4 @@ public class EnemyWalk : MonoBehaviour
         }
     }
 
-    private void OnCollisionEnter2D(Collision2D collision)
-    {
-        Debug.Log("Jenkins would be dead");
-    }
-
 }
