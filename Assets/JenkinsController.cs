@@ -6,6 +6,7 @@ using UnityEngine;
 public class JenkinsController : MonoBehaviour
 {
     private Rigidbody2D jenkinsRigidBody2D;
+    public GameManager gameManager;
     
     [Header("Default Movement")]
     public float scrollSpeed = 4f;
@@ -34,6 +35,9 @@ public class JenkinsController : MonoBehaviour
     void Start()
     {
         jenkinsRigidBody2D = GetComponent<Rigidbody2D>();
+        gameManager = FindObjectOfType<GameManager>();
+
+
     }
 
     // Update is called once per frame
@@ -149,10 +153,11 @@ public class JenkinsController : MonoBehaviour
         if (other.gameObject.CompareTag("Coin"))
         {
             Destroy(other.gameObject);
-            Debug.Log("coin");
+            gameManager.ScoreCoin(1);
         }
 
-        if(other.gameObject.CompareTag("Enemy"))
+
+        if (other.gameObject.CompareTag("Enemy"))
         {
             jenkinsRigidBody2D.velocity = new Vector2(jenkinsRigidBody2D.velocity.x, jumpPowerY * 1.1f);
         }

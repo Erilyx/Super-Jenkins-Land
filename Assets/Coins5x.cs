@@ -4,9 +4,13 @@ using UnityEngine;
 
 public class Coins5x : MonoBehaviour
 {
+    public GameManager gameManager;
+
     // Start is called before the first frame update
     void Start()
     {
+        gameManager = FindObjectOfType<GameManager>();
+        gameManager.ScoreCoin(5);
         Invoke("Despawn", 1.3f);
     }
 
