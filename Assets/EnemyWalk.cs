@@ -31,8 +31,7 @@ public class EnemyWalk : MonoBehaviour
         if (other.gameObject.CompareTag("Player"))
         {
             Destroy(gameObject);
-            Debug.Log("Enemy dies");
-            Instantiate(squishedEnemy, transform.position, quaternion.identity);
+            Instantiate(squishedEnemy, transform.position, Quaternion.identity);
         }
         if (other.gameObject.CompareTag("LeftEdge"))
         {

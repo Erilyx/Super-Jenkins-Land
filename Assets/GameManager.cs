@@ -5,6 +5,7 @@ using TMPro;
 
 public class GameManager : MonoBehaviour
 {
+    public static bool gameIsPaused = false;
     //bool gameIsOver = false;
     public int coinCount = 0;
     public int playerLives = 3;
@@ -21,10 +22,16 @@ public class GameManager : MonoBehaviour
         gameOverRibbon.SetActive(false);
     }
 
+    private void Update()
+    {
+        
+    }
+
     public void JenkinsDies()
     {
         playerLives--;
         remainingLives.text = playerLives.ToString();
+        //Time.timeScale = 0;
         if (playerLives == 0)
         {
             GameOver();
@@ -36,8 +43,6 @@ public class GameManager : MonoBehaviour
         Debug.Log("Game Over from GameManager");
         gameOverRibbon.SetActive(true);
         Time.timeScale = 0;
-        Invoke("Restart", 5f);  ///or load the title screen ... this doesn't seem to be working
-
     }
 
 

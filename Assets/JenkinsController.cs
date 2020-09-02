@@ -172,7 +172,16 @@ public class JenkinsController : MonoBehaviour
         {
             gameManager.JenkinsDies();
             Invoke("RespawnJenkins", 2);
+        }
+    }
 
+    private void OnCollisionEnter2D(Collision2D other)
+    {
+        if (other.gameObject.CompareTag("Lava"))
+        {
+            gameManager.JenkinsDies();
+
+            Invoke("RespawnJenkins", 2);
         }
     }
 
@@ -180,7 +189,6 @@ public class JenkinsController : MonoBehaviour
     {
         Debug.Log("am now in the invoked respawn function");
         transform.position = spawnPoint;
-        Time.timeScale = 1;
      }
 
     private void OnDrawGizmos()
