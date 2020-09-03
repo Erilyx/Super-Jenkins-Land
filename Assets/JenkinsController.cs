@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEditor.Experimental.GraphView;
 using UnityEngine;
+using UnityEngine.Audio;
 
 public class JenkinsController : MonoBehaviour
 {
@@ -30,6 +31,13 @@ public class JenkinsController : MonoBehaviour
     public bool allowScrolling = false;
     public float jumpDelay = 0.25f;
     private float jumpTimer;
+
+    public AudioSource jumpSound;
+    public AudioSource coinCollect;
+    public AudioSource jenkinsDeath;
+    public AudioSource starCollect;
+    public AudioSource killGoomba;
+    public AudioSource bigCoin;
 
     // Start is called before the first frame update
     void Start()
@@ -94,6 +102,7 @@ public class JenkinsController : MonoBehaviour
 
     void Jump()
     {
+        JumpSound();
         if (!onGround)
         {
             if (onRightWall)
@@ -116,6 +125,11 @@ public class JenkinsController : MonoBehaviour
         }
 
         jumpTimer = 0;
+    }
+
+    public void JumpSound()
+    {
+        jumpSound.Play();
     }
 
     void ModifyPhysics()
@@ -153,6 +167,7 @@ public class JenkinsController : MonoBehaviour
     {
         if (other.gameObject.CompareTag("Coin"))
         {
+            coinCollect.Play();
             Destroy(other.gameObject);
             gameManager.ScoreCoin(1);
         }
@@ -160,20 +175,25 @@ public class JenkinsController : MonoBehaviour
 
         if (other.gameObject.CompareTag("Enemy"))
         {
+            killGoomba.Play();
             jenkinsRigidBody2D.velocity = new Vector2(jenkinsRigidBody2D.velocity.x, jumpPowerY * 1.1f);
         }
 
         if(other.gameObject.CompareTag("Star"))
         {
+            starCollect.Play();
             Destroy(other.gameObject);
             gameManager.StarCollected();
         }
 
         if (other.gameObject.CompareTag("Lava"))
         {
+
+            jenkinsDeath.Play();
             gameManager.JenkinsDies();
             Invoke("RespawnJenkins", 2);
         }
+
     }
 
     private void OnCollisionEnter2D(Collision2D other)
@@ -184,6 +204,12 @@ public class JenkinsController : MonoBehaviour
 
             Invoke("RespawnJenkins", 2);
         }
+
+        if (other.gameObject.CompareTag("QuestionBox"))
+        {
+            bigCoin.Play();
+        }
+
     }
 
     public void RespawnJenkins()

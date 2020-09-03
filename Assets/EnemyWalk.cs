@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using Unity.Mathematics;
 using UnityEngine;
-
 public class EnemyWalk : MonoBehaviour
 {
     private Transform jenkinsTransform;
