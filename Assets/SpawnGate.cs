@@ -9,10 +9,11 @@ public class SpawnGate : MonoBehaviour
 
 
     private void OnTriggerEnter2D(Collider2D other)
-    {
+    {      
+        Debug.Log("I am in the spawn gate function");
         if (other.gameObject.CompareTag("Player"))
         {
-            Debug.Log("I am in the spawn gate function");
+
             Instantiate(enemy, transform.position, Quaternion.identity);
         }
         

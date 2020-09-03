@@ -14,12 +14,24 @@ public class GameManager : MonoBehaviour
 
     public GameObject gameOverRibbon;
 
+    private int starCounter = 1;
+    public GameObject starCanvas1;
+    public GameObject starCanvas2;
+    public GameObject starCanvas3;
+    public GameObject starCanvas4;
+    public GameObject starCanvas5;
 
     private void Start()
     {
         Time.timeScale = 1;
         remainingLives.text = playerLives.ToString();
         gameOverRibbon.SetActive(false);
+
+        starCanvas1.SetActive(false);
+        starCanvas2.SetActive(false);
+        starCanvas3.SetActive(false);
+        starCanvas4.SetActive(false);
+        starCanvas5.SetActive(false);
     }
 
     private void Update()
@@ -44,6 +56,39 @@ public class GameManager : MonoBehaviour
         gameOverRibbon.SetActive(true);
         Time.timeScale = 0;
     }
+
+    public void StarCollected()
+    {
+        if(starCounter == 1)
+        {
+            starCanvas1.SetActive(true);
+            starCounter++;
+        }
+        else if (starCounter == 2)
+        {
+            starCanvas2.SetActive(true);
+            starCounter++;
+        }
+        else if (starCounter == 3)
+        {
+            starCanvas3.SetActive(true);
+            starCounter++;
+
+        }
+        else if (starCounter == 4)
+        {
+            starCanvas4.SetActive(true);
+            starCounter++;
+
+        }
+        else if (starCounter == 5)
+        {
+            starCanvas5.SetActive(true);
+            starCounter++;
+        }
+
+    }
+
 
 
     void Restart()

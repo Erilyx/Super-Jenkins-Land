@@ -166,6 +166,7 @@ public class JenkinsController : MonoBehaviour
         if(other.gameObject.CompareTag("Star"))
         {
             Destroy(other.gameObject);
+            gameManager.StarCollected();
         }
 
         if (other.gameObject.CompareTag("Lava"))
