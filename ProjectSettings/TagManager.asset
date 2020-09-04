@@ -12,6 +12,7 @@ TagManager:
   - QuestionBox
   - GameManager
   - SpawnGate
+  - StartDialogue
   layers:
   - Default
   - TransparentFX

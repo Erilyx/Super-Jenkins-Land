@@ -8,7 +8,7 @@ public class JenkinsController : MonoBehaviour
 {
     private Rigidbody2D jenkinsRigidBody2D;
     public GameManager gameManager;
-    
+
     [Header("Default Movement")]
     public float scrollSpeed = 4f;
     public float linearDrag = 4f;
@@ -45,7 +45,6 @@ public class JenkinsController : MonoBehaviour
         jenkinsRigidBody2D = GetComponent<Rigidbody2D>();
         gameManager = FindObjectOfType<GameManager>();
         spawnPoint = new Vector3(0, 0, 0);  //need to convert to world coords???
-
 
     }
 
@@ -188,11 +187,11 @@ public class JenkinsController : MonoBehaviour
 
         if (other.gameObject.CompareTag("Lava"))
         {
-
             jenkinsDeath.Play();
             gameManager.JenkinsDies();
             Invoke("RespawnJenkins", 2);
         }
+
 
     }
 
@@ -218,16 +217,4 @@ public class JenkinsController : MonoBehaviour
         transform.position = spawnPoint;
      }
 
-    private void OnDrawGizmos()
-    {
-        Gizmos.color = Color.red;
-        Gizmos.DrawLine(transform.position + colliderOffest, transform.position + colliderOffest + Vector3.down * distanceToGround);
-        Gizmos.DrawLine(transform.position - colliderOffest, transform.position - colliderOffest + Vector3.down * distanceToGround);
-
-        Gizmos.DrawLine(transform.position + colliderWallOffset, transform.position + colliderWallOffset + Vector3.right * distanceToWall);
-        Gizmos.DrawLine(transform.position - colliderWallOffset, transform.position - colliderWallOffset + Vector3.right * distanceToWall);
-
-        Gizmos.DrawLine(transform.position + colliderWallOffset, transform.position + colliderWallOffset + Vector3.left * distanceToWall);
-        Gizmos.DrawLine(transform.position - colliderWallOffset, transform.position - colliderWallOffset + Vector3.left * distanceToWall);
-    }
 }
