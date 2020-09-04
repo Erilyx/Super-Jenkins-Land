@@ -12,6 +12,7 @@ public class GameManager : MonoBehaviour
     public TextMeshProUGUI remainingLives;
 
     public GameObject gameOverRibbon;
+    public static bool isGameOver = false;
 
     private int starCounter = 1;
     public GameObject starCanvas1;
@@ -22,6 +23,7 @@ public class GameManager : MonoBehaviour
 
     private void Start()
     {
+        isGameOver = false;
         playerLives = PlayerPrefs.GetInt("PlayerLives");
         coinCount = PlayerPrefs.GetInt("coinScore");
 
@@ -54,7 +56,8 @@ public class GameManager : MonoBehaviour
     public void GameOver()
     {
         gameOverRibbon.SetActive(true);
-        Time.timeScale = 0;
+        isGameOver = true;
+        Time.timeScale = 0.1f;
     }
 
     public void StarCollected()

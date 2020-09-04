@@ -9,7 +9,7 @@ public class LevelLoader : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-
+        Time.timeScale = 1;
     }
 
     // Update is called once per frame
@@ -17,7 +17,10 @@ public class LevelLoader : MonoBehaviour
     {
 
     }
-
+    public void RestartFromBeginning()
+    {
+        SceneManager.LoadScene(0);
+    }
     public void LoadNextLevel()
     {
 

@@ -1,6 +1,5 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
-using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 using UnityEngine.Audio;
 
@@ -85,6 +84,11 @@ public class JenkinsController : MonoBehaviour
         if (onGround)
         {
             allowScrolling = true;
+        }
+
+        if (Input.GetKey(KeyCode.Return) && GameManager.isGameOver)
+        {
+            levelLoader.RestartFromBeginning();
         }
 
     }//end of Update
@@ -224,7 +228,7 @@ public class JenkinsController : MonoBehaviour
             Invoke("RespawnJenkins", 2);
         }
 
-        if (other.gameObject.CompareTag("QuestionBox"))
+        if (other.gameObject.CompareTag("QuestionBox") && QuestionBoxAnim.canBeHit)
         {
             bigCoin.Play();
         }
