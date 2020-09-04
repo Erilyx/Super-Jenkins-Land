@@ -9,10 +9,14 @@ public class TitleScreen : MonoBehaviour
     public LevelLoader levelLoader;
     public AudioSource gameStart;
     private float timeHolder = 0;
+    //public int playerLives = 3;
+    //public int coinCount = 0;
 
     // Start is called before the first frame update
     void Start()
     {
+        PlayerPrefs.SetInt("PlayerLives", 3);
+        PlayerPrefs.SetInt("coinScore", 0);
         blinkerCanvas.SetActive(false);
     }
 

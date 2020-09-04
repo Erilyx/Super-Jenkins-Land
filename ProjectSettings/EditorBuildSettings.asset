@@ -9,9 +9,15 @@ EditorBuildSettings:
     path: Assets/Scenes/00-Title.unity
     guid: d5d71101cf0294041a71939a356d1e3e
   - enabled: 1
-    path: Assets/Scenes/Scene02-Training.unity
-    guid: 5eb250f4b7a293a4592c25e603584edf
+    path: Assets/Scenes/01-Dialogue.unity
+    guid: a3ceea223056f8c43b65bc2827fbc716
   - enabled: 1
-    path: Assets/Scenes/Scene03.unity
-    guid: 6f4a73975d1673b43abe1a0bdffba193
+    path: Assets/Scenes/02-Level-1.unity
+    guid: 267bdd01ccf2125459ae5b3b87ea9087
+  - enabled: 1
+    path: Assets/Scenes/03-Level-2-ro.unity
+    guid: 54cae84bc8e02cb43a282d4fe6feb9ab
+  - enabled: 1
+    path: Assets/Scenes/0X - Final Screen.unity
+    guid: 9b8bb90fa754ae14b93e6cd117804422
   m_configObjects: {}

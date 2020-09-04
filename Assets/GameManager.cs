@@ -6,9 +6,8 @@ using TMPro;
 public class GameManager : MonoBehaviour
 {
     public static bool gameIsPaused = false;
-    //bool gameIsOver = false;
-    public int coinCount = 0;
-    public int playerLives = 3;
+    public int coinCount;
+    public int playerLives;
     public TextMeshProUGUI coinScore;
     public TextMeshProUGUI remainingLives;
 
@@ -23,7 +22,9 @@ public class GameManager : MonoBehaviour
 
     private void Start()
     {
-        Time.timeScale = 1;
+        playerLives = PlayerPrefs.GetInt("PlayerLives");
+        coinCount = PlayerPrefs.GetInt("coinScore");
+
         remainingLives.text = playerLives.ToString();
         gameOverRibbon.SetActive(false);
 
@@ -43,7 +44,7 @@ public class GameManager : MonoBehaviour
     {
         playerLives--;
         remainingLives.text = playerLives.ToString();
-        //Time.timeScale = 0;
+        PlayerPrefs.SetInt("PlayerLives", playerLives);
         if (playerLives == 0)
         {
             GameOver();
@@ -52,7 +53,6 @@ public class GameManager : MonoBehaviour
 
     public void GameOver()
     {
-        Debug.Log("Game Over from GameManager");
         gameOverRibbon.SetActive(true);
         Time.timeScale = 0;
     }
@@ -90,17 +90,11 @@ public class GameManager : MonoBehaviour
     }
 
 
-
-    void Restart()
-    {
-        Debug.Log("restart from game manager");
-        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
-    }
-
     public void ScoreCoin(int points)
     {
         coinCount = coinCount + points;
         coinScore.text = coinCount.ToString();
+        PlayerPrefs.SetInt("coinScore", coinCount);
     }
 
 

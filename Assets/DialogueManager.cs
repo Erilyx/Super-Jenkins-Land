@@ -9,6 +9,7 @@ public class DialogueManager : MonoBehaviour
     public TextMeshProUGUI dialogueText;
     private Queue<string> sentences;
     public Animator animator;
+    public LevelLoader levelLoader;
 
 
     // Start is called before the first frame update
@@ -52,5 +53,12 @@ public class DialogueManager : MonoBehaviour
     public void EndDialogue()
     {
         animator.SetBool("isOpen", false);
+        StartCoroutine(PushNextLevel());
+    }
+
+    IEnumerator PushNextLevel()
+    {
+        yield return new WaitForSeconds(1);
+        levelLoader.LoadNextLevel();
     }
 }

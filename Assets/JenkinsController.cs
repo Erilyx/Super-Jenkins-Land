@@ -8,6 +8,7 @@ public class JenkinsController : MonoBehaviour
 {
     private Rigidbody2D jenkinsRigidBody2D;
     public GameManager gameManager;
+    public LevelLoader levelLoader;
 
     [Header("Default Movement")]
     public float scrollSpeed = 4f;
@@ -23,6 +24,8 @@ public class JenkinsController : MonoBehaviour
     public Vector3 spawnPoint;
     public float gravity = 1f;
     public float fallMultiplier = 5f;
+    public bool keepMoving = true;
+    public bool isAlive = true;
 
     [Header("Jump Abilities")]
     public float jumpPowerX = 1f;
@@ -38,6 +41,7 @@ public class JenkinsController : MonoBehaviour
     public AudioSource starCollect;
     public AudioSource killGoomba;
     public AudioSource bigCoin;
+    public AudioSource levelOver;
 
     // Start is called before the first frame update
     void Start()
@@ -58,7 +62,7 @@ public class JenkinsController : MonoBehaviour
         onLeftWall = (Physics2D.Raycast(transform.position + colliderWallOffset, Vector2.left, distanceToWall, groundLayer) ||
                         Physics2D.Raycast(transform.position - colliderWallOffset, Vector2.left, distanceToWall, groundLayer));
 
-        if (!onRightWall && allowScrolling) 
+        if (!onRightWall && allowScrolling && keepMoving) 
         { 
             ScrollJenkins();
         }
@@ -192,14 +196,30 @@ public class JenkinsController : MonoBehaviour
             Invoke("RespawnJenkins", 2);
         }
 
+        if(other.gameObject.CompareTag("EndDoor"))
+        {
+            keepMoving = false;  ///stop him from scrolling
+            jenkinsRigidBody2D.velocity = new Vector2(0,0);
+            levelOver.Play();
+            StartCoroutine(LevelComplete());
+        }
 
+    }
+
+    IEnumerator LevelComplete()
+    {
+        yield return new WaitForSeconds(2);
+        levelLoader.LoadNextLevel();
     }
 
     private void OnCollisionEnter2D(Collision2D other)
     {
-        if (other.gameObject.CompareTag("Lava"))
+        if (other.gameObject.CompareTag("Lava") && isAlive)
         {
             gameManager.JenkinsDies();
+            isAlive = false;
+            jenkinsDeath.Play();
+            //stop getting multi-killed by goombas!
 
             Invoke("RespawnJenkins", 2);
         }
@@ -215,6 +235,8 @@ public class JenkinsController : MonoBehaviour
     {
         Debug.Log("am now in the invoked respawn function");
         transform.position = spawnPoint;
-     }
+        isAlive = true;
+
+    }
 
 }
