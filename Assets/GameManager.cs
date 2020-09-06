@@ -6,8 +6,8 @@ using TMPro;
 public class GameManager : MonoBehaviour
 {
     public static bool gameIsPaused = false;
-    public int coinCount;
-    public int playerLives;
+    public int coinCount = 0;
+    public int playerLives = 3;
     public TextMeshProUGUI coinScore;
     public TextMeshProUGUI remainingLives;
 
@@ -20,14 +20,24 @@ public class GameManager : MonoBehaviour
     public GameObject starCanvas3;
     public GameObject starCanvas4;
     public GameObject starCanvas5;
+    public GameObject stars5;
+
+    public AudioSource fifthStar;
+    public AudioSource hundredthCoin;
 
     private void Start()
     {
         isGameOver = false;
-        playerLives = PlayerPrefs.GetInt("PlayerLives");
-        coinCount = PlayerPrefs.GetInt("coinScore");
+        if(SceneManager.GetActiveScene().buildIndex > 1)
+        {
+            Debug.Log("calling the player prefs for Lives, Coins");
+            playerLives = PlayerPrefs.GetInt("PlayerLives");
+            coinCount = PlayerPrefs.GetInt("coinScore");
+        }
 
         remainingLives.text = playerLives.ToString();
+        coinScore.text = coinCount.ToString();
+
         gameOverRibbon.SetActive(false);
 
         starCanvas1.SetActive(false);
@@ -35,6 +45,7 @@ public class GameManager : MonoBehaviour
         starCanvas3.SetActive(false);
         starCanvas4.SetActive(false);
         starCanvas5.SetActive(false);
+        stars5.SetActive(false);
     }
 
     private void Update()
@@ -46,7 +57,6 @@ public class GameManager : MonoBehaviour
     {
         playerLives--;
         remainingLives.text = playerLives.ToString();
-        PlayerPrefs.SetInt("PlayerLives", playerLives);
         if (playerLives == 0)
         {
             GameOver();
@@ -88,19 +98,31 @@ public class GameManager : MonoBehaviour
         {
             starCanvas5.SetActive(true);
             starCounter++;
+            stars5.SetActive(true);
+            playerLives++;
+            fifthStar.Play();
+            Invoke("TurnOff5Star", 1);
         }
-
     }
 
+    public void TurnOff5Star()
+    {
+        stars5.SetActive(false);
+    }
 
     public void ScoreCoin(int points)
     {
         coinCount = coinCount + points;
         coinScore.text = coinCount.ToString();
-        PlayerPrefs.SetInt("coinScore", coinCount);
+
+        if (coinCount >= 100)
+        {
+            playerLives++;
+            coinCount = coinCount - 100;
+            remainingLives.text = playerLives.ToString();
+            coinScore.text = coinCount.ToString();
+            hundredthCoin.Play();
+        }
+
     }
-
-
-
-
 }

@@ -228,7 +228,7 @@ public class JenkinsController : MonoBehaviour
             Invoke("RespawnJenkins", 2);
         }
 
-        if (other.gameObject.CompareTag("QuestionBox") && QuestionBoxAnim.canBeHit)
+        if (other.gameObject.CompareTag("QuestionBox"))
         {
             bigCoin.Play();
         }

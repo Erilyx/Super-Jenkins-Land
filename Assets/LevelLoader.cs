@@ -5,10 +5,12 @@ using UnityEngine.SceneManagement;
 
 public class LevelLoader : MonoBehaviour
 {
+    public GameManager gameManager;
 
     // Start is called before the first frame update
     void Start()
     {
+        gameManager = FindObjectOfType<GameManager>();
         Time.timeScale = 1;
     }
 
@@ -23,7 +25,12 @@ public class LevelLoader : MonoBehaviour
     }
     public void LoadNextLevel()
     {
-
+        if(SceneManager.GetActiveScene().buildIndex > 1)
+        {
+            Debug.Log("This is the load next level script setting the player count");
+            PlayerPrefs.SetInt("PlayerLives", gameManager.playerLives);
+            PlayerPrefs.SetInt("coinScore", gameManager.coinCount);
+        }
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
     }
 }
