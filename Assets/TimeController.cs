@@ -25,9 +25,9 @@ public class TimeController : MonoBehaviour
             tickTime = Time.time;
         }
 
-        if(startingTime == 0)
+        if(startingTime < 0)
         {
-            Debug.Log("Player Death by time");
+            timeText.text = "TIME 0";
         }
     }
 

@@ -1714,7 +1714,7 @@ TextureImporter:
     second: 8x8 Mario Land Sprite Sheet_357
   - first:
       213: 5228549900231232818
-    second: 8x8 Mario Land Sprite Sheet_358
+    second: heart
   - first:
       213: 2014196723235939740
     second: 8x8 Mario Land Sprite Sheet_359
@@ -10050,7 +10050,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: 8x8 Mario Land Sprite Sheet_358
+      name: heart
       rect:
         serializedVersion: 2
         x: 16

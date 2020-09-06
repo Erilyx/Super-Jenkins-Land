@@ -25,7 +25,7 @@ public class LevelLoader : MonoBehaviour
     }
     public void LoadNextLevel()
     {
-        if(SceneManager.GetActiveScene().buildIndex > 1)
+        if((SceneManager.GetActiveScene().buildIndex > 1) && (SceneManager.GetActiveScene().buildIndex < 4))
         {
             Debug.Log("This is the load next level script setting the player count");
             PlayerPrefs.SetInt("PlayerLives", gameManager.playerLives);

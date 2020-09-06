@@ -100,6 +100,7 @@ public class GameManager : MonoBehaviour
             starCounter++;
             stars5.SetActive(true);
             playerLives++;
+            remainingLives.text = playerLives.ToString();
             fifthStar.Play();
             Invoke("TurnOff5Star", 1);
         }
